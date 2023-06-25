@@ -66,14 +66,20 @@ lvim.builtin.treesitter.auto_install = true
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
-
+lvim.lsp.on_attach_callback = vim.api.nvim_create_autocmd("CursorHold", {
+  buffer = bufnr,
+  callback = function()
+    local opts = {
+      focusable = false,
+      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+      border = 'rounded',
+      source = 'always',
+      prefix = ' ',
+      scope = 'cursor',
+    }
+    vim.diagnostic.open_float(nil, opts)
+  end
+})
 -- -- linters, formatters and code actions <https://www.lunarvim.org/docs/configuration/language-features/linting-and-formatting>
 -- local formatters = require "lvim.lsp.null-ls.formatters"
 -- formatters.setup {
@@ -119,9 +125,12 @@ lvim.plugins = {
 --   end,
 -- })
 
+-- Setup theme
+
 lvim.transparent_window = true
 lvim.colorscheme = "tokyonight-moon"
 
+-- Setup Helm syntax highlighting (WIP)
 -- require("lvim.lsp.manager").setup("helm_ls", {
 --   default_config = {
 --     cmd = { "helm_ls", "serve" },
@@ -150,4 +159,11 @@ lvim.colorscheme = "tokyonight-moon"
 -- }
 --
 
+-- Setup colorizer for color highlighting
+
 require 'colorizer'.setup()
+
+-- Setup expanding error messages on hover
+
+vim.o.updatetime = 250
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]

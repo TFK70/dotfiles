@@ -54,7 +54,7 @@ lvim.builtin.treesitter.auto_install = true
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
--- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
+vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "yamlls" })
 -- local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
 
@@ -130,34 +130,38 @@ lvim.plugins = {
 lvim.transparent_window = true
 lvim.colorscheme = "tokyonight-moon"
 
--- Setup Helm syntax highlighting (WIP)
--- require("lvim.lsp.manager").setup("helm_ls", {
---   default_config = {
---     cmd = { "helm_ls", "serve" },
---     filetypes = { 'helm' },
---     root_dir = function(fname)
---       return lvim.lsp.util.root_pattern('Chart.yaml')(fname)
---     end,
---   },
--- })
+-- Configure yamlls for specific .yaml files
 
--- if not lvim.lsp.configs.helm_ls then
---   lvim.lsp.configs.helm_ls = {
---     default_config = {
---       cmd = { "helm_ls", "serve" },
---       filetypes = { 'helm' },
---       root_dir = function(fname)
---         return lvim.lsp.util.root_pattern('Chart.yaml')(fname)
---       end,
---     },
---   }
--- end
+local yamllscfg = {
+  settings = {
+    yaml = {
+      hover = true,
+      completion = true,
+      validate = true,
+      schemaStore = {
+        enable = true,
+        url = "https://www.schemastore.org/api/json/catalog.json",
+      },
+      schemas = {
+        ['http://json.schemastore.org/golangci-lint.json']      = '.golangci.{yml,yaml}',
+        ['http://json.schemastore.org/github-workflow.json']    = '.github/workflows/*.{yml,yaml}',
+        ['http://json.schemastore.org/github-action.json']      = '.github/action.{yml,yaml}',
+        ['http://json.schemastore.org/ansible-stable-2.9.json'] = 'roles/tasks/*.{yml,yaml}',
+        ['http://json.schemastore.org/ansible-playbook.json']   = 'playbook.{yml,yaml}',
+        ['http://json.schemastore.org/prettierrc.json']         = '.prettierrc.{yml,yaml}',
+        ['http://json.schemastore.org/stylelintrc.json']        = '.stylelintrc.{yml,yaml}',
+        ['http://json.schemastore.org/circleciconfig.json']     = '.circleci/**/*.{yml,yaml}',
+        ['http://json.schemastore.org/kustomization.json']      = 'kustomization.{yml,yaml}',
+        ['http://json.schemastore.org/helmfile.json']           = 'templates/**/*.{yml,yaml}',
+        ['http://json.schemastore.org/chart.json']              = 'Chart.{yml,yaml}',
+        ['http://json.schemastore.org/gitlab-ci.json']          = '/*lab-ci.{yml,yaml}',
+        ['http://json.schemastore.org/tsconfig.json']           = 'tsconfig.{yml,yaml}',
+      }
+    },
+  }
+}
 
--- lvim.lsp.helm_ls.setup {
---   filetypes = { "helm" },
---   cmd = { "helm_ls", "serve" },
--- }
---
+require("lvim.lsp.manager").setup("yaml_language_server", yamllscfg)
 
 -- Setup colorizer for color highlighting
 

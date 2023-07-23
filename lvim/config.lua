@@ -60,9 +60,9 @@ vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "yamlls" })
 
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
--- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
---   return server ~= "emmet_ls"
--- end, lvim.lsp.automatic_configuration.skipped_servers)
+lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
+  return server ~= "emmet_ls"
+end, lvim.lsp.automatic_configuration.skipped_servers)
 
 -- -- you can set a custom on_attach function that will be used for all the language servers
 -- -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -113,7 +113,46 @@ lvim.plugins = {
   },
   {
     "norcalli/nvim-colorizer.lua"
-  }
+  },
+  "aca/emmet-ls",
+  config = function()
+    local lspconfig = require("lspconfig")
+    local configs = require("lspconfig/configs")
+
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
+    capabilities.textDocument.completion.completionItem.resolveSupport = {
+      properties = {
+        "documentation",
+        "detail",
+        "additionalTextEdits",
+      },
+    }
+
+    if not lspconfig.emmet_ls then
+      configs.emmet_ls = {
+        default_config = {
+          cmd = { "emmet-ls", "--stdio" },
+          filetypes = {
+            "html",
+            "css",
+            "javascript",
+            "typescript",
+            "eruby",
+            "typescriptreact",
+            "javascriptreact",
+            "svelte",
+            "vue",
+          },
+          root_dir = function(fname)
+            return vim.loop.cwd()
+          end,
+          settings = {},
+        },
+      }
+    end
+    lspconfig.emmet_ls.setup({ capabilities = capabilities })
+  end,
 }
 
 -- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>

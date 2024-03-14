@@ -19,7 +19,7 @@
         "battery",
         "backlight",
         "pulseaudio",
-	"network"
+        "network"
     ],
 
     "network": {
@@ -37,11 +37,11 @@
     "hyprland/window": {
         "format": "{}"
     },
-    "wlr/workspaces": {
+    "hyprland/workspaces": {
         "disable-scroll": true,
         "all-outputs": true,
         "on-click": "activate",
-        //"format": "{icon}",
+        "format": "{icon}",
         "persistent_workspaces": {
             "1": [],
             "2": [],

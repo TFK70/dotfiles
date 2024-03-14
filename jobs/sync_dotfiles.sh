@@ -2,7 +2,7 @@ REPO_PATH=tfk70/dotfiles
 
 # Sync files in .config
 update_list=("alacritty" "hypr" "lvim" "waybar" "yandex-disk" "cava" "rofi" "wlogout" "swaylock" "jobs")
-homedir_update_list=(".zshrc" ".p10k.zsh")
+homedir_update_list=(".p10k.zsh") # No .zshrc
 
 cd ~
 

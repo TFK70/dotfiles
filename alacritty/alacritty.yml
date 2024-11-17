@@ -3,7 +3,10 @@ window:
     x: 1
     y: 1
   dynamic_padding: true
-  opacity: 0.7
+  opacity: 1
+  dimensions:
+    columns: 150
+    lines: 150
 
 font:
   normal:

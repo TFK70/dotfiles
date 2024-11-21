@@ -1,0 +1,11 @@
+[Unit]
+Description=Yandex disk daemon
+
+[Service]
+ExecStart=yandex-disk start
+Type=oneshot
+User=darius
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

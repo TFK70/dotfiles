@@ -115,38 +115,56 @@ lvim.plugins = {
     "norcalli/nvim-colorizer.lua"
   },
   {
-    "jackMort/ChatGPT.nvim",
-    event = "VeryLazy",
+    "frankroeder/parrot.nvim",
+    dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim', 'rcarriga/nvim-notify' },
     config = function()
-      require("chatgpt").setup({
-        api_host_cmd = 'echo http://192.168.31.10:11434',
-        api_key_cmd = 'echo ""',
-        openai_params = {
-          model = "qwen2.5-coder:14b",
-          frequency_penalty = 0,
-          presence_penalty = 0,
-          max_tokens = 4095,
-          temperature = 0.2,
-          top_p = 0.1,
-          n = 1,
+      require("parrot").setup {
+        providers = {
+          ollama = {
+            endpoint = "http://192.168.31.10:11434/api/chat",
+            topic = {
+              model = "qwen2.5-coder:14b",
+              params = { max_tokens = 32 }
+            }
+          },
         },
-        openai_edit_params = {
-          model = "qwen2.5-coder:14b",
-          frequency_penalty = 0,
-          presence_penalty = 0,
-          temperature = 0,
-          top_p = 1,
-          n = 1,
-        }
-      })
+      }
     end,
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "folke/trouble.nvim", -- optional
-      "nvim-telescope/telescope.nvim"
-    }
   },
+  -- TODO uncomment when curl problem fixed
+  -- {
+  --   "jackMort/ChatGPT.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("chatgpt").setup({
+  --       api_host_cmd = 'echo http://192.168.31.10:11434',
+  --       api_key_cmd = 'echo ""',
+  --       openai_params = {
+  --         model = "qwen2.5-coder:14b",
+  --         frequency_penalty = 0,
+  --         presence_penalty = 0,
+  --         max_tokens = 4095,
+  --         temperature = 0.2,
+  --         top_p = 0.1,
+  --         n = 1,
+  --       },
+  --       openai_edit_params = {
+  --         model = "qwen2.5-coder:14b",
+  --         frequency_penalty = 0,
+  --         presence_penalty = 0,
+  --         temperature = 0,
+  --         top_p = 1,
+  --         n = 1,
+  --       }
+  --     })
+  --   end,
+  --   dependencies = {
+  --     "MunifTanjim/nui.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "folke/trouble.nvim", -- optional
+  --     "nvim-telescope/telescope.nvim"
+  --   }
+  -- },
   "aca/emmet-ls",
   config = function()
     local lspconfig = require("lspconfig")

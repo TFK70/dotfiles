@@ -56,3 +56,10 @@ y = 1
 [window.dimensions]
 columns = 90
 lines = 30
+
+
+[keyboard]
+bindings = [
+  { key = "Equals", mods = "Control", action = "None" },
+  { key = "NumpadSubtract", mods = "Control", action = "None" },
+]

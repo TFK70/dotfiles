@@ -115,6 +115,9 @@ lvim.plugins = {
     "norcalli/nvim-colorizer.lua"
   },
   {
+    "christoomey/vim-tmux-navigator"
+  },
+  {
     "frankroeder/parrot.nvim",
     dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim', 'rcarriga/nvim-notify' },
     config = function()

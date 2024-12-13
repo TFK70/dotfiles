@@ -21,6 +21,9 @@ lvim.format_on_save = {
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+lvim.keys.normal_mode["n"] = "nzzzv"
+lvim.keys.normal_mode["N"] = "Nzzzv"
+lvim.keys.visual_mode["<leader>p"] = "\"_dP"
 
 -- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
 -- lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
@@ -34,6 +37,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
+-- lvim.builtin.alpha.dashboard.section.header.val = {}
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = true
@@ -108,6 +112,26 @@ end, lvim.lsp.automatic_configuration.skipped_servers)
 
 -- -- Additional Plugins <https://www.lunarvim.org/docs/configuration/plugins/user-plugins>
 lvim.plugins = {
+  -- Games
+  -- :Tetris
+  {
+    "alec-gibson/nvim-tetris"
+  },
+  -- :KillKillKill
+  {
+    "seandewar/killersheep.nvim"
+  },
+  -- :CellularAutomaton make_it_rain
+  -- :CellularAutomaton game_of_life
+  {
+    "Eandrju/cellular-automaton.nvim"
+  },
+  -- :BlackJackNewGame
+  -- :BlackJackResetScores
+  {
+    "alanfortlink/blackjack.nvim"
+  },
+  -- Misc
   {
     "towolf/vim-helm"
   },
@@ -119,7 +143,7 @@ lvim.plugins = {
   },
   {
     "frankroeder/parrot.nvim",
-    dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim', 'rcarriga/nvim-notify' },
+    dependencies = { 'ibhagwan/fzf-lua', 'nvim-lua/plenary.nvim' },
     config = function()
       require("parrot").setup {
         providers = {
